@@ -1,0 +1,18 @@
+https://www.youtube.com/watch?v=PvbT-l0mweY&list=PLf0swTFhTI8otgadSFlL44X_ISa0jvhJQ&index=7
+https://www.youtube.com/watch?v=EGQjqcOIjIM&index=8&list=PLf0swTFhTI8o2V96xr0ayFWKfFJ2PvxHM
+https://www.youtube.com/watch?v=8N1VZ6muG8U&index=12&list=PLf0swTFhTI8q0x0V1E6We5zBQ9UazHFY0
+https://www.youtube.com/watch?v=aLt6n6shqJw&list=PLf0swTFhTI8pronNK7Gm-isKX7tdNb0Go
+http://www.thegeekstuff.com/2013/06/cut-command-examples
+
+REPL: read evaluate print loop
+print ("Hello World")    
+
+sh-4.2$ python                                                                  
+Python 2.7.12 (default, Sep  1 2016, 22:14:00)                                  
+[GCC 4.8.3 20140911 (Red Hat 4.8.3-9)] on linux2                                
+Type "help", "copyright", "credits" or "license" for more information.          
+>>> print ("Hello World")                                                       
+Hello World    
+
+
+
