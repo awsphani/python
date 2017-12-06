@@ -216,8 +216,22 @@ etc/hadoop/conf: core-site.xml-> can find namenode  in .  details fs.defaultFS
   get no of closed and completed orders when data is being filtered
   
   spark-shell --master yarn --conf spark.ui.port=12345
-  
+  or
   pyspark --master yarn --conf spark.ui.port=12562
+  
+  to list all control args
+  pyspark --help
+  
+  pyspark --master yarn --conf spark.ui.port=12562 --num-executors 1 --executors-memory 2G
+  to pass control args programmatically 
+  
+  >>>sc.stop()
+  
+  from pyspark import SparkConf, SparkContext
+  conf1 = SparkConf().setMaster("yarn").setAppName("Testing").set("spark.ui.port","12445")
+  sc = SparkContext(conf=conf1)
+  
+  
   
   
   
