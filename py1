@@ -215,6 +215,10 @@ etc/hadoop/conf: core-site.xml-> can find namenode  in .  details fs.defaultFS
   broadcast peoducts and perform lkp in to broadcasted hashmap
   get no of closed and completed orders when data is being filtered
   
+  spark-shell --master yarn --conf spark.ui.port=12345
+  
+  pyspark --master yarn --conf spark.ui.port=12562
+  
   
   
   
