@@ -251,17 +251,22 @@ etc/hadoop/conf: core-site.xml-> can find namenode  in .  details fs.defaultFS
   
   read file from hdfs
   orders = sc.textFile("user/awsphani/retail_db/orders")
-  orders.first()
   orders.count()
+  orders.collect() will take entire rdd distrubuted at multiple nodes in cluster and create single thread python list at driver,
+  normally driver is 1GB and you will face memory issues if the rdd is larger than 1 gb lets say 10 TB
+  orders.first() ->returns one element of its datatype here unicode string
+  orders.take(5)->returns list of unicode strings
   
-  after action like count or once job is completed , rdd might get flushed out, to make it persist for using RDD multiple times in same session use as below
+  for order in orders.take(10): print(order)
+  
+  after action like count, collect(avoid as possible), take(4) or once job is completed , rdd might get flushed out, to make it persist for using RDD multiple times in same session use as below
   
   from pyspark import StorageLevel
   orders.persists(MEMORY_ONLY or MEMORY_ONLY_SER, DISK_ONLY, MEMORY_AND_DISK,....) 
     or
   orders.cache()->MEMORY_ONLY
   
-  
+  orders.toDebugString() will give the DAG details when transformations are done
   
   
   
