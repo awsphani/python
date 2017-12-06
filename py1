@@ -228,8 +228,26 @@ etc/hadoop/conf: core-site.xml-> can find namenode  in .  details fs.defaultFS
   >>>sc.stop()
   
   from pyspark import SparkConf, SparkContext
-  conf1 = SparkConf().setMaster("yarn").setAppName("Testing").set("spark.ui.port","12445")
+  conf1 = SparkConf().setMaster("yarn-client").setAppName("Testing").set("spark.ui.port","12445")
   sc = SparkContext(conf=conf1)
+  
+  use tracking url and paste in browser to check job details
+  
+  RDD : data is distributed by dividing the dataset(collection) in to partition based on data and tasks in the memory and is resilient as if something is lost in memory spark will create new task and knows which patition and executes again
+  so its recovered so resilient
+  
+  rdd from collection and file
+  
+  help(sc)
+  
+  p=range(1,10)
+  sc.parallelize(p)
+  
+  orders = sc.textFile("user/awsphani/retail_db/orders")
+  orders.first()
+  orders.count()
+  
+  
   
   
   
