@@ -240,12 +240,37 @@ etc/hadoop/conf: core-site.xml-> can find namenode  in .  details fs.defaultFS
   
   help(sc)
   
-  p=range(1,10)
+  p=range(1,1000)
   sc.parallelize(p)
   
+  read from local file path usin python , this will get list and, splitlines splits bases on newline char
+  
+  productsRaw = open("/data/retail_db/products/part-00000").read().splitlines()
+  productsRaw[0]
+  
+  
+  read file from hdfs
   orders = sc.textFile("user/awsphani/retail_db/orders")
   orders.first()
   orders.count()
+  
+  after action like count or once job is completed , rdd might get flushed out, to make it persist for using RDD multiple times in same session use as below
+  
+  from pyspark import StorageLevel
+  orders.persists(MEMORY_ONLY or MEMORY_ONLY_SER, DISK_ONLY, MEMORY_AND_DISK,....) 
+    or
+  orders.cache()->MEMORY_ONLY
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   
