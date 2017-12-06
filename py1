@@ -250,14 +250,15 @@ etc/hadoop/conf: core-site.xml-> can find namenode  in .  details fs.defaultFS
   
   
   read file from hdfs
-  orders = sc.textFile("user/awsphani/retail_db/orders")
-  orders.count()
-  orders.collect() will take entire rdd distrubuted at multiple nodes in cluster and create single thread python list at driver,
+  orders = sc.textFile("user/awsphani/retail_db/orders") ->transformation( map,filter,flatmap,union,
+  rders.toDebugString() will give the DAG details when transformations are done
+  actions:
+  orders.count() ->actions
+  orders.collect() will take entire rdd distrubuted at multiple nodes in cluster and create single thread python array at driver,
   normally driver is 1GB and you will face memory issues if the rdd is larger than 1 gb lets say 10 TB
   orders.first() ->returns one element of its datatype here unicode string
   orders.take(5)->returns list of unicode strings
-  
-  for order in orders.take(10): print(order)
+ 
   
   after action like count, collect(avoid as possible), take(4) or once job is completed , rdd might get flushed out, to make it persist for using RDD multiple times in same session use as below
   
@@ -266,7 +267,60 @@ etc/hadoop/conf: core-site.xml-> can find namenode  in .  details fs.defaultFS
     or
   orders.cache()->MEMORY_ONLY
   
-  orders.toDebugString() will give the DAG details when transformations are done
+  get daily rev of product for closed and completed orders, date asc, rev in desc
+  broadcast peoducts and perform lkp in to broadcasted hashmap
+ 
+ 
+########## get no of closed and completed orders when data is being filtered
+ 
+  orders = sc.textFile("user/awsphani/retail_db/orders")
+  for order in orders.take(10): print(order)
+  //get orders status which is 4th column, indexing start at 0 for lists
+  ordersStatuses = orders.map(lambda order: order.split(",")[3])
+  ordersStatuses.take(2)
+  //get all distict orders status to see what are the orderstatus values
+  
+  for oderStatus in ordersStatuses.distinct().collect(): print(oderStatus)
+  
+  //filter for getting only closed and complete
+  
+  ordersFiltered = orders.filter(lambda order: order.split(",")[3]=="COMPLETE" or order.split(",")[3]=="CLOSED")
+  ordersFiltered.count()
+
+########## get no of closed and completed orders using accumulators
+  
+  ordersCompletedCount=0
+  def isComplete(order,ordersCompletedCount):
+    isCompleted=order.split(",")[3]=="COMPLETE" or order.split(",")[3]=="CLOSED"
+    if(isCompleted):
+      ordersCompletedCount+=1
+    return ordersCompletedCount  
+    
+    
+  ordersFiltered = orders.filter(lambda order: isComplete(order,ordersCompletedCount))
+  ordersFiltered.count() >this will be zero as ordersCompletedCount=0 init is part of driver prgm and lambda is executed at different  executor nodes
+
+so to get this right pass and track , we have to use accumulator
+
+ ordersCompletedCount= sc.accumulator(0)
+ ordersCompletedCount.value
+ 
+ def isComplete(order,ordersCompletedCount):
+    isCompleted=order.split(",")[3]=="COMPLETE" or order.split(",")[3]=="CLOSED"
+    if(isCompleted):
+      ordersCompletedCount.add(1)
+    return ordersCompletedCount  
+  
+  ordersFiltered = orders.filter(lambda order: isComplete(order,ordersCompletedCount))
+  ordersFiltered.count() >this will return correct value;
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   
