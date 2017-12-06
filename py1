@@ -177,11 +177,20 @@ APQYHTD6485432:~ pkum60$ tar xvf spark-2.2.0-bin-hadoop2.7.tgz
 softlink
 APQYHTD6485432:~ pkum60$ ln -s spark-1.6.3-bin-hadoop2.6 spark
 
+APQYHTD6485432:~ pkum60$ nano .bash_profile
+export SPARK_HOME=/Users/pkum60/spark
+export PATH=$PATH:$SPARK_HOME/bin
+APQYHTD6485432:~ pkum60$ . ~/.bash_profilevi
+
+https://coolestguidesontheplanet.com/add-shell-path-osx/
+ etc/hadoop/conf: core-site.xml
+ spark-env.xml
+ APQYHTD6485432:~ pkum60$ spark-shell
  
  
  
- 
- 
+ hadoop fs -du -s -h  s3a://nike-stage/dev/ck/plans/workouts_metadata/downloaded_date=2017-11-27/content/
+ hdfs fsck s3a://nike-stage/dev/ck/plans/workouts_metadata/downloaded_date=2017-11-27/content/ -files -blocks -locations
  
  
    
