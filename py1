@@ -317,16 +317,22 @@ so to get this right pass and track , we have to use accumulator
  ################### for joins we need our data in key value pairs: for orders and orderItems here
   
   key value pairs -> key from orders is order_id and value whatever fields we need, order_date
+ joins with (K,V) and (K,W) retruns  tuple (K,(V,W)) pairs
   
   ordersMap= ordersFiltered.map(lambda order: (int(order.split(",")[0]),order.split(",")[1]))
-  ordersMap.first()-> (1,"0171217")
+  ordersMap.first()-> (1,u'2013-07-25 00:00::00.0') tuple
   
   we need order_is as key and tuple of product_id and revenue as value
+ 
   orderItems = sc.textFile("user/awsphani/retail_db/order_Items")
   orderItemsMap=orderItems.map(lambda orderItem: (int(orderItem.split(",")[1]),/
   (int(order.splitItem(",")[2]),float(order.splitItem(",")[4]))))
   
-  orderItemsMap.first() ->(1,(100, 200.57)
+  orderItemsMap.first() ->(1,(100, 200.57) tuple
+  
+  
+  ordersJoin = ordersMap.join(orderItemsMap)
+  ordersJoin.first() -> (1,(u'2013-07-25 00:00::00.0',(100, 200.57)))
   
   
   
