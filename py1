@@ -211,6 +211,11 @@ etc/hadoop/conf: core-site.xml-> can find namenode  in .  details fs.defaultFS
 
  can increase SPARK_EXECUTOR_CORES based on the no of cores we have in cluster and the data being processed
    
+  get daily rev of product for closed and completed orders, date asc, rev in desc
+  broadcast peoducts and perform lkp in to broadcasted hashmap
+  get no of closed and completed orders when data is being filtered
+  
+  
   
   
   
