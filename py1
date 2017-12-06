@@ -2,7 +2,7 @@ https://www.youtube.com/watch?v=PvbT-l0mweY&list=PLf0swTFhTI8otgadSFlL44X_ISa0jv
 https://www.youtube.com/watch?v=EGQjqcOIjIM&index=8&list=PLf0swTFhTI8o2V96xr0ayFWKfFJ2PvxHM
 https://www.youtube.com/watch?v=8N1VZ6muG8U&index=12&list=PLf0swTFhTI8q0x0V1E6We5zBQ9UazHFY0
 https://www.youtube.com/watch?v=aLt6n6shqJw&list=PLf0swTFhTI8pronNK7Gm-isKX7tdNb0Go
-http://www.thegeekstuff.com/2013/06/cut-command-examples
+
 
 REPL: read evaluate print loop
 print ("Hello World")    
@@ -13,6 +13,183 @@ Python 2.7.12 (default, Sep  1 2016, 22:14:00)
 Type "help", "copyright", "credits" or "license" for more information.          
 >>> print ("Hello World")                                                       
 Hello World    
+
+>>l = range (1,20)                                                                                                                                                                                                                                                                         
+>>> l                                                                                                                                                                                                                                                                                        
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+
+>>> res=0                                                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                      
+>>> for i in l:                                                                                                                                                                                                                                                                              
+...  res+=i                                                                                                                                                                                                                                                                                  
+...                                                                                                                                                                                                                                                                                          
+>>> res                                                                                                                                                                                                                                                                                      
+190                                                                                                                                                                                                                                                                                          
+
+
+def sum(func,lb,ub):
+  tot=0
+  while(lb<=ub):
+    tot+=func(lb)
+    lb+=1
+   return tot
+   
+ def id(i):
+  return i
+  
+ def sqr(i)
+   return i*i
+  
+  sum(id,1,10)
+  sum(sqr,1,10)
+  
+  
+  sum(lambda i: i*i, 1,10)
+  
+  lists:
+  
+  l = [1,2,3,1,2,7,8]
+  
+  l[0]=1
+  l[1]=2
+  l[-1] last elem
+  l[2:5]
+  s= set(l)
+  
+  removes duplicates and sets cannot do s[0] s[1]...set obj doesnot support indexing
+  
+  help(l)
+  help(s)
+  
+  >>> l =[1,2,1,2,5,6,7]                                                                              
+>>> l                                                                                               
+[1, 2, 1, 2, 5, 6, 7]                                                                               
+>>> s= set(l)                                                                                       
+>>> s                                                                                               
+set([1, 2, 5, 6, 7])                                                                                
+>>> l1= [8,9,10]                                                                                    
+>>>                                                                                                 
+>>> l.append(3,4,5)                                                                                 
+Traceback (most recent call last):                                                                  
+  File "<stdin>", line 1, in <module>                                                               
+TypeError: append() takes exactly one argument (3 given)                                            
+>>> l.append(3)                                                                                     
+>>> l                                                                                               
+[1, 2, 1, 2, 5, 6, 7, 3]                                                                            
+>>> l.append(l1)                                                                                    
+>>> l                                                                                               
+[1, 2, 1, 2, 5, 6, 7, 3, [8, 9, 10]]                                                                
+>>> l.extend(l1)                                                                                    
+>>> l                                                                                               
+[1, 2, 1, 2, 5, 6, 7, 3, [8, 9, 10], 8, 9, 10]                                                      
+>>>                                                                                                 
+    
+ l.append(object)  -- append object to end
+ l.extend(iterable) --extend list by appending elems from iterable
+ >>> l[2:5]                                                                                          
+[1, 2, 5] 
+l[2:5][0]
+1
+
+>>> d= {1:"hello",2:"world"} 
+>>> d[1]="folks"                                                                                    
+>>> d                                                                                               
+{1: 'folks', 2: 'world'}  
+>>> d.keys()                                                                                        
+[1, 2]                                                                                              
+>>> d.values()                                                                                      
+['folks', 'world']                                                                                  
+>>> d.items()                                                                                       
+[(1, 'folks'), (2, 'world')]                                                                        
+>>> type(d.items())                                                                                 
+<type 'list'>  
+
+ map filter reduce
+ 
+ map(function, sequence[, sequence, ...]) -> list                                                
+                                                                                                    
+    Return a list of the results of applying the function to the items of                           
+    the argument sequence(s).  If more than one sequence is given, the                              
+    function is called with an argument list consisting of the corresponding                        
+    item of each sequence, substituting None for missing values when not all                        
+    sequences have the same length.  If the function is None, return a list of                      
+    the items of the sequence (or a list of tuples if more than one sequence).     
+                                                                                                                            
+filter(...)                                                                                                                 
+    filter(function or None, sequence) -> list, tuple, or string                                                            
+                                                                                                                            
+    Return those items of sequence for which function(item) is true.  If                                                    
+    function is None, return the items that are true.  If sequence is a tuple                                               
+    or string, return the same type, else return a list.     
+  
+ reduce(...)                                                                     
+    reduce(function, sequence[, initial]) -> value                              
+                                                                                
+    Apply a function of two arguments cumulatively to the items of a sequence,  
+    from left to right, so as to reduce the sequence to a single value.         
+    For example, reduce(lambda x, y: x+y, [1, 2, 3, 4, 5]) calculates           
+    ((((1+2)+3)+4)+5).  If initial is present, it is placed before the items    
+    of the sequence in the calculation, and serves as a default when the        
+    sequence is empty.  
+    
+>>> l= range(1,10)                                                                                                          
+>>> f=filter(lambda i: i%2==0,l)                                                                                            
+>>> l                                                                                                                       
+[1, 2, 3, 4, 5, 6, 7, 8, 9]                                                                                                 
+>>> f                                                                                                                       
+[2, 4, 6, 8]                                                                                                                
+>>> m=map(lambda i: i*i,f)                                                                                                  
+>>> m                                                                                                                       
+[4, 16, 36, 64]                                                                                                             
+>>> r=reduce(lambda total,element: total+element,f)                                                                         
+>>> r                                                                                                                       
+20                                                                                                                          
+>>> r=reduce(lambda total,element: total+element,f,0)                                                                       
+>>> r                                                                                                                       
+20                                                                                                                          
+>>> r=reduce(lambda total,element: total+element,f,10)                                                                      
+>>> r                                                                                                                       
+30                                                                                                                          
+>>> k=[1,2,3,4]                                                                                                             
+>>> r1=reduce(lambda total,element: total*element)                                                                          
+Traceback (most recent call last):                                                                                          
+  File "<stdin>", line 1, in <module>                                                                                       
+TypeError: reduce expected at least 2 arguments, got 1                                                                      
+>>> r1=reduce(lambda total,element: total*element,k)                                                                        
+>>> r1                                                                                                                      
+24                                                                                                                          
+>>> r1=reduce(lambda total,element: total*element,k,5)                                                                      
+>>> r1                                                                                                                      
+120                                              
+ 
+ https://spark.apache.org/downloads.html
+ https://www.apache.org/dyn/closer.lua/spark/spark-1.6.3/spark-1.6.3-bin-hadoop2.6.tgz
+ terminal
+ javac -version 
+ 1.7 or greater
+ 
+ copy from downloads to home in mac
+ 
+ APQYHTD6485432:~ pkum60$ cp ~/Downloads/spark-2.2.0-bin-hadoop2.7.tgz  .
+APQYHTD6485432:~ pkum60$ cp ~/Downloads/spark-1.6.3-bin-hadoop2.6.tgz  .
+APQYHTD6485432:~ pkum60$ tar xvf spark-1.6.3-bin-hadoop2.6.tgz 
+APQYHTD6485432:~ pkum60$ tar xvf spark-2.2.0-bin-hadoop2.7.tgz 
+softlink
+APQYHTD6485432:~ pkum60$ ln -s spark-1.6.3-bin-hadoop2.6 spark
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+   
+  
+  
+  
+  
+   
 
 
 
