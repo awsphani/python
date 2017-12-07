@@ -357,8 +357,42 @@ ReduceByKey- better performance as it uses combiner
 aggregateByKey -betterperf, combiner and reducer logic are different
 groupByKey-poor perf, use only if RBK,ABK cant be used.
 
+1+2+3+4+5+6+7+8+9+10-> 1+2+3=6 . 4+5+6=15 . 7+8+9+10=34 (combiner) => . 6+15+34(reducer)
+
+getdata in k,v pairs with date+prodid as key revenue as vals using ordersJoin
+
+ordersJoin.first() -> (1,(u'2013-07-25 00:00::00.0',(100, 200.57)))
 
 
+ordersJoinMap=ordersJoin.map(lambda order:((order[1][0],order[1][1][0]),order[1][1][1])
+
+dailyrevPerProdId=ordersJoinReduce=ordersJoinMap.reduceByKey(lambda tot,rev:tot+rev)
+
+aggregateByKey
+
+get dailyrevPerProdId along with product count 
+
+
+dailyrevPerProdIdwithProdCount=ordersJoinMap.\
+aggregateByKey((0.0,0),
+lambda:inter,revenue:(inter[0]+revenue,inter[1]+1),
+lambda final,inter:(final[0]+inter[0],final[1]+inter[1])
+)
+
+
+products= open("/data/retail_db/products/part-000000).splitlines()
+products[0]
+productsRDD =products.parallelize() ->converts list to rdd
+productsMap=productsRDD.map(lambda product:(int(product.split(",")[0])product.split(",")[2]))
+
+productId as key, date,rev as-> (product_ID,(date,rev))
+dailyrevPerProdIdMap=dailyrevPerProdId.map(lambda rec:(rec[0][1],(rec[0][0],rec[1])))
+
+now can join with products
+
+dailyrevPerProdJoinProducts=dailyrevPerProdIdMap.join(productsMap)
+->(prodId,((u'date',rev),prodname))
+dailyrevPerProdName=dailyrevPerProdJoinProducts.map(lambda rec:rec[1][0],rec[1][1])
 
 
 
