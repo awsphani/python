@@ -351,7 +351,27 @@ r[1][1]=None (will not print)
 
 ordersWithNoOrderItems=ordersLeftOuterJoin.filter( lambda OrderItemElem: OrderItemElem[1][1]==None)
   
-  
+Aggreagte Data:
+
+ReduceByKey- better performance as it uses combiner
+aggregateByKey -betterperf, combiner and reducer logic are different
+groupByKey-poor perf, use only if RBK,ABK cant be used.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
   
   
