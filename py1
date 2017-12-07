@@ -334,7 +334,22 @@ so to get this right pass and track , we have to use accumulator
   ordersJoin = ordersMap.join(orderItemsMap)
   ordersJoin.first() -> (1,(u'2013-07-25 00:00::00.0',(100, 200.57)))
   
+  get records in orders that are not in orderitems
   
+  ordersLeftOuterJoin=ordersMap.leftOuterJoin(orderItemsMap) -> this will all recs from orders and will have null or none for records that are not in orderItems 
+  
+  example
+     (1,(u'2013-07-25 00:00::00.0',(100, 200.57)))
+     (1,(u'2013-07-25 00:00::00.0',(101, 700.57)))
+     (2,(u'2013-07-25 00:00::00.0',(None))) = (2,(u'2013-07-25 00:00::00.0',None))
+  
+  r=  (2,(u'2013-07-25 00:00::00.0',None))
+     r[0]=2
+     r[1]=(u'2013-07-25 00:00::00.0',None)
+r[1][0]=u'2013-07-25 00:00::00.0'
+r[1][1]=None (will not print)
+
+ordersWithNoOrderItems=ordersLeftOuterJoin.filter( lambda OrderItemElem: OrderItemElem[1][1]==None)
   
   
   
