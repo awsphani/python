@@ -422,6 +422,25 @@ dailyrevPerProdNName=ordersJoinReduce=ordersJoinMap.reduceByKey(lambda tot,rev:t
 dailyrevPerProdNName.first()->((u'date',"prodname"),80.0)
 
 
+BCV will be propogated to all tasks and if its needed it will be available to use in any of those tasks
+
+sorting:
+
+for i in dailyrevPerProdNName.sortByKey().take(10): print(i)
+
+we want sorting date by asc and desc by rev, above we have to change key as (date,rev) and negate rev so key will be (date,rev)
+
+
+dailyrevPerProdNNameMap=dailyrevPerProdNName.map(lambda order: ((order[0][0],-order[1]),order[0][1]))
+dailyrevPerProdNNameMapSrt=dailyrevPerProdNNameMap.sortByKey()
+for i in dailyrevPerProdNNameMapSrt.take(100):print(i)
+
+dailyrevPerProdNNameMapSrtResults=dailyrevPerProdNNameMapSrt.map(ambda order: (order[0][0]+","+ str(-order[0][1])+","+order[1])
+
+for i in dailyrevPerProdNNameMapSrtResults.take(100):print(i)
+
+
+
 
 
 
