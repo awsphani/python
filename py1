@@ -392,9 +392,34 @@ now can join with products
 
 dailyrevPerProdJoinProducts=dailyrevPerProdIdMap.join(productsMap)
 ->(prodId,((u'date',rev),prodname))
-dailyrevPerProdName=dailyrevPerProdJoinProducts.map(lambda rec:rec[1][0],rec[1][1])
+dailyrevPerProdName=dailyrevPerProdJoinProducts.map(lambda rec:rec[1])
+->((u'date',rev),prodname))
+
+broadcast var: when you want to join big dataset with small data set, create hash of small ds as lookup rather than join
+
+get daily rev per product using BC var
+
+products= open("/data/retail_db/products/part-00000").read().splitlines()
+
+get prodid and prodname from abopve py list
+
+productsMap= map(lambda product: (int(product.split(",")[0]),product.split(",")[2]),products)
+productsMapdict=dict(productsMap)
+
+#can get prodname using key prodid
+productsMapdict[1345]
+#broadcast
+productsBV=sc.broadcast(productsMapdict)
+productsBV.value(1345)
+
+ordersJoin.first() -> (1,(u'2013-07-25 00:00::00.0',(100, 200.57)))
 
 
+ordersJoinMap=ordersJoin.map(lambda order:((order[1][0],productsBV(order[1][1][0])),order[1][1][1])
+
+dailyrevPerProdNName=ordersJoinReduce=ordersJoinMap.reduceByKey(lambda tot,rev:tot+rev)
+
+dailyrevPerProdNName.first()->((u'date',"prodname"),80.0)
 
 
 
