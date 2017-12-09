@@ -439,6 +439,25 @@ dailyrevPerProdNNameMapSrtResults=dailyrevPerProdNNameMapSrt.map(ambda order: (o
 
 for i in dailyrevPerProdNNameMapSrtResults.take(100):print(i)
 
+save in hdfs:
+dailyrevPerProdNNameMapSrtResults.saveAsTextFile("/usr/awsphanii/dailyrevforprod")
+
+
+
+hive> set hive.metastore.warehouse.dir =>/apps/hive/warehouse ->default hdfs location for hive
+
+
+pyspark --master yarn --conf spark.ui.port=12562 --num-executors 1 --executors-memory 2G
+>> sqlContext.sql("use dabtabse_name");
+df=sqlContext.sql("show tables").show;
+for i in sqlContext.sql("describe formatted orders").collect():print(i);
+
+
+
+
+
+
+
 
 
 
