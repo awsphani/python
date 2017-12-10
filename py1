@@ -4,6 +4,9 @@ https://www.youtube.com/watch?v=8N1VZ6muG8U&index=12&list=PLf0swTFhTI8q0x0V1E6We
 https://www.youtube.com/watch?v=aLt6n6shqJw&list=PLf0swTFhTI8pronNK7Gm-isKX7tdNb0Go
 
 
+https://www.youtube.com/watch?v=H0aByUM_cZI&list=PLf0swTFhTI8pronNK7Gm-isKX7tdNb0Go&index=44
+
+
 REPL: read evaluate print loop
 print ("Hello World")    
 
@@ -451,6 +454,97 @@ pyspark --master yarn --conf spark.ui.port=12562 --num-executors 1 --executors-m
 >> sqlContext.sql("use dabtabse_name");
 df=sqlContext.sql("show tables").show;
 for i in sqlContext.sql("describe formatted orders").collect():print(i);
+
+sqlContext.sql("select * from orders limit 10").show;
+
+
+
+hive language manual:
+hive>
+
+create  table orders
+(
+order_id int,
+order_date string,
+order_customer_id int,
+order_status string
+)
+row format delimited fields terminated by ','
+stored as textfile;
+
+
+LOAD DATA LOCAL INPATH '/home/awsphani/data/retail_db/orders' into table orders
+
+dfs -ls /apps/hive/warehouse/awsphani_db/orders
+
+create  table order_items
+(
+order_item_id int,
+order_item_order_id int,
+order_item_product_id int,
+order_item_quantity int,
+order_item_subtotal float,
+order_item_product_price float
+)
+row format delimited fields terminated by ','
+stored as textfile;
+
+LOAD DATA LOCAL INPATH '/home/awsphani/data/retail_db/order_items' into table orders
+
+create  table orders_orc
+(
+order_id int,
+order_date string,
+order_customer_id int,
+order_status string
+)stored as orc;
+
+
+create  table order_items_orc
+(
+order_item_id int,
+order_item_order_id int,
+order_item_product_id int,
+order_item_quantity int,
+order_item_subtotal float,
+order_item_product_price float
+)
+stored as orc;
+
+
+insert into table orders_orc select * from orders
+insert into table order_items_orc select * from order_items
+
+hive> show functions;
+substr,instr,like,rlike,length,lcase or lower,ucase or upper,rpad,lpad,initcap,split,cast,index
+
+describe function substr;
+
+hive>select index(split("hello how are you",' '),2);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
