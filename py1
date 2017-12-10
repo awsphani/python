@@ -548,9 +548,11 @@ select order_status,
                          else 'RISKY'
                          end from orders limit 10;
 
-
 select nvl(order_status,'status missing') from orders;
 
+row level transformation:data standardization,cleansing,
+
+select cast(concat(substr(order_date,1,4),substr(order_date,6,2)) as int)
 
 
 
