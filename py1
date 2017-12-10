@@ -550,9 +550,135 @@ select order_status,
 
 select nvl(order_status,'status missing') from orders;
 
-row level transformation:data standardization,cleansing,
+row level transformation:data standardization,cleansing,obfuscation
 
-select cast(concat(substr(order_date,1,4),substr(order_date,6,2)) as int)
+select cast(concat(substr(order_date,1,4),substr(order_date,6,2)) as int) from orders limit 10;
+
+select cast(date_format(order_date,"YYYYMM) as int) from orders limit 10;
+
+select o.*,c.* from orders o, customers c 
+where o.customer_id =c.customer_id
+limit 10;
+
+select o.*,c.* from orders o 
+join customers c 
+on o.customer_id =c.customer_id limit 10;
+
+get all customers who dont have orders
+
+select o.*,c.* from orders o 
+right outer join customers c 
+on o.customer_id =c.customer_id where o.customer_id is null limit 10;
+
+          or
+          
+select * from customers where customer_id not in(select distinct order_customer_id from orders)
+
+aggregations:
+
+revenueperorder is derived field, derived flds cannot be used part of where clause like revenueperorder>1000
+
+WHERE,GROUP BY, HAVING, ORDER BY --->IS THE ORDER
+
+select o.order_id, o.order_date,o.order_status,sum(oi.order_item_subtotal) as revenueperorder
+from orders o join order_items oi 
+on o.order_id=oi.order_item_order_id
+where o.order_status in('COMPLETE','CLOSED')
+group by o.order_id,o.order_date,o.order_status
+having sum(oi.order_item_subtotal) >=1000
+
+REVENUE PER DAY;
+
+select o.order_date,round(sum(oi.order_item_subtotal),2) as revenueperDAY
+from orders o join order_items oi 
+on o.order_id=oi.order_item_order_id
+where o.order_status in('COMPLETE','CLOSED')
+group by o.order_date
+
+sorting
+
+select o.order_id, o.order_date,o.order_status,sum(oi.order_item_subtotal) as revenueperorder
+from orders o join order_items oi 
+on o.order_id=oi.order_item_order_id
+where o.order_status in('COMPLETE','CLOSED')
+group by o.order_id,o.order_date,o.order_status
+having sum(oi.order_item_subtotal) >=1000
+order by o.order_id,revenueperorder desc;
+
+not global sort, but will sort revenue per order for each date -> better performance than order by: use distribute by sort by clause
+
+data might be sorted randomly by date but revenue pero order will be  sorted correctly per date
+
+select o.order_id, o.order_date,o.order_status,sum(oi.order_item_subtotal) as revenueperorder
+from orders o join order_items oi 
+on o.order_id=oi.order_item_order_id
+where o.order_status in('COMPLETE','CLOSED')
+group by o.order_id,o.order_date,o.order_status
+having sum(oi.order_item_subtotal) >=1000
+distribute by o.order_date sort by o.order_date,revenueperorder desc;
+
+
+SETS
+similar dataset for set operations -> union(no duplicates), unionall(dupes also included)
+
+Agg:
+Analytic funcs
+
+
+get %rev for each orderitem having same orderids ; 
+if we need more cols and those cols not part of group by we use partition by clause 
+so for every entry of order_item we will get its corresponding orderid,orderdate,orderstatus, 
+orderitems subtotal from orderitems and then aggregated revenue per orderid  using partition on orderid
+
+
+select o.order_id, o.order_date,o.order_status,oi.order_item_subtotal,
+round(sum(oi.order_item_subtotal) over(partition by o.order_id),2)  revenueperorder,
+oi.order_item_subtotal/round(sum(oi.order_item_subtotal)(partition by o.order_id),2) pctrevnue
+from orders o join order_items oi 
+on o.order_id=oi.order_item_order_id
+
+
+we cannot put where condition on derived cols like revenueperorder >=1000, so we need to nest the query
+nested query needs alias always
+select * from
+(select o.order_id, o.order_date,o.order_status,oi.order_item_subtotal,
+round(sum(oi.order_item_subtotal) over(partition by o.order_id),2)  revenueperorder,
+oi.order_item_subtotal/round(sum(oi.order_item_subtotal)(partition by o.order_id),2) pctrevnue,
+round(avg(oi.order_item_subtotal) over(partition by o.order_id),2)  avg_rev,
+from orders o join order_items oi 
+on o.order_id=oi.order_item_order_id
+where o.order_status in('COMPLETE','CLOSED'))q
+where revenueperorder>=1000
+order by order_id,revenueperorder desc;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
