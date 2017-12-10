@@ -3,6 +3,7 @@ https://www.youtube.com/watch?v=EGQjqcOIjIM&index=8&list=PLf0swTFhTI8o2V96xr0ayF
 https://www.youtube.com/watch?v=8N1VZ6muG8U&index=12&list=PLf0swTFhTI8q0x0V1E6We5zBQ9UazHFY0
 https://www.youtube.com/watch?v=aLt6n6shqJw&list=PLf0swTFhTI8pronNK7Gm-isKX7tdNb0Go
 
+https://www.youtube.com/watch?v=NQE7q8PoVSE
 
 https://www.youtube.com/watch?v=H0aByUM_cZI&list=PLf0swTFhTI8pronNK7Gm-isKX7tdNb0Go&index=44
 
@@ -523,10 +524,32 @@ describe function substr;
 hive>select index(split("hello how are you",' '),2);
 
 
+agg funct:> count, sum, avg,min,max
+
+select count(distinct order_status) from orders;
+
+current_date,current_timestamp, date_format(currentdate, 'y'),day(currentdate),todate(current_timestamp)
+to_unix_timestamp(current_timestamp), to_date(from_unix_timestamp(1488484848499));date_add(current_date,10)
+
+case
+
+select order_status,
+        case order_status
+                         when 'CLOSED'  then 'No Action' 
+                         when 'COMPLETE'  then 'No Action'
+                         else 'RISKY'
+                         end from orders limit 10;
 
 
+select order_status,
+             case 
+                         when order_status in ('CLOSED','COMPLETE')  then 'No Action' 
+                         when order_status in ('ON_HOLD,','PENDING')  then 'Pending Action' 
+                         else 'RISKY'
+                         end from orders limit 10;
 
 
+select nvl(order_status,'status missing') from orders;
 
 
 
