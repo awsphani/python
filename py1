@@ -645,11 +645,46 @@ select * from
 round(sum(oi.order_item_subtotal) over(partition by o.order_id),2)  revenueperorder,
 oi.order_item_subtotal/round(sum(oi.order_item_subtotal)(partition by o.order_id),2) pctrevnue,
 round(avg(oi.order_item_subtotal) over(partition by o.order_id),2)  avg_rev,
+rank() over(partition by o.order_id order by oi.order_item_subtotal desc ) rnk_rev,
+dense_rank() over(partition by o.order_id order by oi.order_item_subtotal desc ) dense_rnk_rev,
+percent_rank() over(partition by o.order_id order by oi.order_item_subtotal desc ) pct_rnk_rev,
+row_number() over(partition by o.order_id order by oi.order_item_subtotal desc ) rownum_orderby_rev
+row_number() over(partition by o.order_id ) rownum_rev
 from orders o join order_items oi 
 on o.order_id=oi.order_item_order_id
 where o.order_status in('COMPLETE','CLOSED'))q
 where revenueperorder>=1000
-order by order_id,revenueperorder desc;
+order by order_id,revenueperorder desc,rnk_rev;
+
+
+windowing function: LEAD,LAG,FIRST_VALUE,LAST_VALUE
+
+lead-fetch nxt rec within group, lag-prev value within grp.
+
+select * from
+(select o.order_id, o.order_date,o.order_status,oi.order_item_subtotal,
+round(sum(oi.order_item_subtotal) over(partition by o.order_id),2)  revenueperorder,
+oi.order_item_subtotal/round(sum(oi.order_item_subtotal)(partition by o.order_id),2) pctrevnue,
+round(avg(oi.order_item_subtotal) over(partition by o.order_id),2)  avg_rev,
+rank() over(partition by o.order_id order by oi.order_item_subtotal desc ) rnk_rev,
+dense_rank() over(partition by o.order_id order by oi.order_item_subtotal desc ) dense_rnk_rev,
+percent_rank() over(partition by o.order_id order by oi.order_item_subtotal desc ) pct_rnk_rev,
+row_number() over(partition by o.order_id order by oi.order_item_subtotal desc ) rownum_orderby_rev
+row_number() over(partition by o.order_id ) rownum_rev,
+lead(oi.order_item_subtotal) over(partition by o.order_id order by oi.order_item_subtotal desc)  lead_order_item_subtotal,
+lag(oi.order_item_subtotal) over(partition by o.order_id order by oi.order_item_subtotal desc)  lag_order_item_subtotal,
+first_value(oi.order_item_subtotal) over(partition by o.order_id order by oi.order_item_subtotal desc)  first_order_item_subtotal,
+last_value(oi.order_item_subtotal) over(partition by o.order_id order by oi.order_item_subtotal desc)  last_order_item_subtotal
+from orders o join order_items oi 
+on o.order_id=oi.order_item_order_id
+where o.order_status in('COMPLETE','CLOSED'))q
+where revenueperorder>=1000
+order by order_id,revenueperorder desc,rnk_rev;
+
+
+
+
+
 
 
 
