@@ -200,8 +200,8 @@ etc/hadoop/conf: core-site.xml-> can find namenode  in .  details fs.defaultFS
  
  
  size, block info,replication,
- hadoop fs -du -s -h  s3a://nike-stage/dev/ck/plans/workouts_metadata/downloaded_date=2017-11-27/content/
- hdfs fsck s3a://nike-stage/dev/ck/plans/workouts_metadata/downloaded_date=2017-11-27/content/ -files -blocks -locations
+ hadoop fs -du -s -h  s3a://nke-stg/dv/ck/plans/workouts_metadata/downloaded_date=2017-11-27/content/
+ hdfs fsck s3a://nke-stg/dv/ck/plans/workouts_metadata/downloaded_date=2017-11-27/content/ -files -blocks -locations
  
  
  yarn-site.xml ->get 
