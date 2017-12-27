@@ -748,7 +748,13 @@ order by order_id,revenueperorder desc,rnk_rev;
 
 
 
+jdbc-pycharm:
+itversity.com/courses/learn-python-for-spark/
+itversity.com/topic/implementing-the-application-using-python/
+from cygwin
+$pip2 install mysql-connector-python-rf
 
+pycharm->python iterapretor-> +, mysql-coonector-python-rf->install pkg 
 
 
 
