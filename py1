@@ -753,7 +753,11 @@ itversity.com/courses/learn-python-for-spark/
 itversity.com/topic/implementing-the-application-using-python/
 from cygwin
 $pip2 install mysql-connector-python-rf
+pycharm->python iterapretor->file:///System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python
+c/python27/scripts
+$ ./pip install . mysql-coonector-python-rf
 
+https://www.youtube.com/watch?v=1ji8lqiBJe0
 pycharm->python iterapretor-> +, mysql-coonector-python-rf->install pkg 
 
 
