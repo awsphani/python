@@ -692,62 +692,6 @@ order by order_id,revenueperorder desc,rnk_rev;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 jdbc-pycharm:
 itversity.com/courses/learn-python-for-spark/
 itversity.com/topic/implementing-the-application-using-python/
@@ -762,6 +706,13 @@ pycharm->python iterapretor-> +, mysql-coonector-python-rf->install pkg
 
 
 
+$scp -r /Users/pkum60/PycharmProjects/pythondemo awsphani@gw01.itversity.com:~
+
+spark-submit \
+--master yarn \
+--conf spark.ui.port=12589 \
+sparkdemo/src/main/python/pythondemo/DailyRevenuePerCustomer.py \
+yarn-client /public/retail_db/ /data/retail_db/customers/part-00000 /user/awsphani/dailyrevenuepercust
 
   
   
