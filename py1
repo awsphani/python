@@ -714,7 +714,30 @@ spark-submit \
 sparkdemo/src/main/python/pythondemo/DailyRevenuePerCustomer.py \
 yarn-client /public/retail_db/ /data/retail_db/customers/part-00000 /user/awsphani/dailyrevenuepercust
 
-  
+10gb ,blksize 128mb,100 million recs=>80 partitions;mapPartitions will be invoked 80 times;whereas map will be 100 million times
+
+
+
+with agg funcs we can use numtasks to reduce or increase numtasks,=>at func level
+colasce->only to decrease num of partitions(global level)
+
+mapPatitions(func) : func in iretable<i>=>iterable<U>;this func will be invoked once per every partition.
+
+map-100millions times invoked
+ordersMap=orders.map(lambda order:(lambda rec:(rec.split(",")[3],1))
+
+#python lambda inside MP below,ivoked 80 times
+ordersMapp=orders.mapPartitions(lambda part:map(lambda rec:(rec.split(",")[3],1),list(part)))
+
+
+
+
+orders.cache()-> MEMORY_ONLY,
+
+orders.persists()-> MEMORY_ONLY,DISK_ONLY....
+
+
+
   
   
   
