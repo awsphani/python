@@ -717,11 +717,13 @@ yarn-client /public/retail_db/ /data/retail_db/customers/part-00000 /user/awspha
 10gb ,blksize 128mb,100 million recs=>80 partitions;mapPartitions will be invoked 80 times;whereas map will be 100 million times
 
 
-
+default behaviour: no of tasks for subsequent task depends on prev tsk stages;
+1stg took 9 tasks,2nd stage will also takes 9 tasks(default behaviour), we can control 2nd stg tasks by using numtasks...
 with agg funcs we can use numtasks to reduce or increase numtasks,=>at func level
-colasce->only to decrease num of partitions(global level)
+coalesce(numPatitions)->only to decrease num of partitions(global level),useful after filtering large datasets
 
 mapPatitions(func) : func in iretable<i>=>iterable<U>;this func will be invoked once per every partition.
+
 
 map-100millions times invoked
 ordersMap=orders.map(lambda order:(lambda rec:(rec.split(",")[3],1))
@@ -729,12 +731,19 @@ ordersMap=orders.map(lambda order:(lambda rec:(rec.split(",")[3],1))
 #python lambda inside MP below,ivoked 80 times
 ordersMapp=orders.mapPartitions(lambda part:map(lambda rec:(rec.split(",")[3],1),list(part)))
 
+ex:regex class/obj and can apply this on patition level
 
-
+repartition(numPartitiions):-to create more or less partitions by reshuffling the data in rdd over n/w
+without applying any transformations.
 
 orders.cache()-> MEMORY_ONLY,
 
-orders.persists()-> MEMORY_ONLY,DISK_ONLY....
+orders.persists()-> MEMORY_ONLY,DISK_ONLY,MEMORY_AND_DISK,MEMORY_ONLY_SER....
+old unused rdds will be removed automaticallyin timely manner, else we can use
+
+RDD.unpersists()
+
+
 
 
 
