@@ -746,10 +746,46 @@ RDD.unpersists()
 
 
 
+normally for sc,we use 2 executors and num of tasks to process data is eq to no of blks in the file sys
+in all the stages.
 
+but when sql is involved shuffling no of tasks is 200 by default, 200 might be overkill for smaller datasets;
+
+to control no of tasks in sparksql,when we have hive table on data,or we have to define struct on top of data using pandas
+sqlContext.setConf("spark.sql.shuffle.partitions","2")
   
-  
-  
+orders=sc.textFile("/public/retail_db/orders")->rdd
+rdd to df
+
+from pyspark.sql import SQLContext,Row
+ordersmap=orders.map(lambda o: Row(order_id=int(o.split(",")[0]),order_date=o.split(",")[1],order_cust_id=int(o.split(",")[2],
+order_status=o.split(",")[3])).toDF()
+
+ordersmap.show(20)
+ordersmap.printSchema()
+ordersmap.registerTempTable("ordersTbl");
+sqlContext.sql("select * from ordersTbl").show(10)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
   
   
