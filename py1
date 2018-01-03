@@ -750,14 +750,13 @@ lets say we have to process 10gb of data,so from above we have 6 executors of 2c
 
 
 
-yarn:
-http://yarn-ck_prod_activity_summary.ngap2.Mke.com:8080/cluster
 
-Vcorestotoal=752
-Memorytotal=2.18TB
 
-MinumAllocation:<memory:32, vCores:1>
-Maximum allocation:<memory:116736, vCores:128>
+
+
+
+
+
 
 
 
