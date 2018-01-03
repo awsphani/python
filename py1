@@ -686,8 +686,9 @@ where o.order_status in('COMPLETE','CLOSED'))q
 where revenueperorder>=1000
 order by order_id,revenueperorder desc,rnk_rev;
 
-sqlContext.sql("select * from ordersschema.orders").show(10,False) -> connects to hive table and ran sql
+pyspark --master yarn --conf spark.ui.port=12352 --executor-memory 2G --num-executors 1
 
+sqlContext.sql("select * from ordersschema.orders").show(10,False) -> connects to hive table and ran sql
 
 sqlContext.sql("select * from ordersschema.orders").printSchema()
 
@@ -715,7 +716,7 @@ productsRDD=sc.parallelize(productsRaw)
 for i in productsRDD.take(10): print(i)
 
 productsDF=productsRDD.\
-map(lambda o: Rowproduct_id=int(o.split(",")[0]),product_name=o.split(",")[2]))./
+map(lambda o: Row(product_id=int(o.split(",")[0]),product_name=o.split(",")[2]))./
 toDF()
 
 productsDF.registerTempTable("productsDF_table");
@@ -815,11 +816,17 @@ ordersmap.printSchema()
 ordersmap.registerTempTable("ordersTbl");
 sqlContext.sql("select * from ordersTbl").show(10)
 
+sqlContext.sql("select o.order_date,p.product_name,sum(oi.order_item_subtotal) daily_revenue_per_product \
+from orders o join order_items oi \
+on o.order_id=oi.order_item_order_id \
+join productss p \
+on p.product_id=oi.order_item_product_id \
+where o.order_ststus in('COMPLETE','CLOSED') \
+group by o.order_date,p.product_name \
+order by o.order_date,daily_revenue_per_product desc").show(10,false)
 
-
-
-
-
+above query will run with 200 tasks which is overkill for smaller set of data, we can control using 
+sqlContext.setConf("spark.sql.shuffle.partitions","2") and then run above query
 
 
 
