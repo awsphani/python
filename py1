@@ -697,7 +697,7 @@ for i in ordersRDD.take(10): print(i)
 type(ordersRDD) =>RDD
 
 #to convert each element of rdds to structured row, use Row; rdd dont have structure, df will have structure
-ordersDF=ordersRDD.map(lambda o: order_id=int(o.split(",")[0]),order_dt=o.split(",")[1],order_custid=int(o.split(",")[2]),orderststus=o.split(",")[3]).toDF()
+ordersDF=ordersRDD.map(lambda o: Row(order_id=int(o.split(",")[0]),order_dt=o.split(",")[1],order_custid=int(o.split(",")[2]),orderststus=o.split(",")[3])).toDF()
 
 ordersDF.show()
 
@@ -706,6 +706,33 @@ created df out of RDD, need to create temptable and can query use registerTempTa
 ordersDF.registerTempTable("ordersDF_table");
 
 sqlContext.sql("select * from ordersDF_table").show(10,False)
+
+
+productsRaw=open("/orders/retail_db/products/part-00000").read().splitlines()
+type(productsRaw)-=>list
+
+productsRDD=sc.parallelize(productsRaw)
+for i in productsRDD.take(10): print(i)
+
+productsDF=productsRDD.\
+map(lambda o: Rowproduct_id=int(o.split(",")[0]),product_name=o.split(",")[2]))./
+toDF()
+
+productsDF.registerTempTable("productsDF_table");
+
+sqlContext.sql("select * from productsDF_table").show(10,False)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
