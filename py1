@@ -686,6 +686,27 @@ where o.order_status in('COMPLETE','CLOSED'))q
 where revenueperorder>=1000
 order by order_id,revenueperorder desc,rnk_rev;
 
+sqlContext.sql("select * from ordersschema.orders").show(10,False) -> connects to hive table and ran sql
+
+
+sqlContext.sql("select * from ordersschema.orders").printSchema()
+
+from pyspark.sql import row
+ordersRDD=sc.textfile("/public/retail_db/orders")
+for i in ordersRDD.take(10): print(i)
+type(ordersRDD) =>RDD
+
+#to convert each element of rdds to structured row, use Row; rdd dont have structure, df will have structure
+ordersDF=ordersRDD.map(lambda o: order_id=int(o.split(",")[0]),order_dt=o.split(",")[1],order_custid=int(o.split(",")[2]),orderststus=o.split(",")[3]).toDF()
+
+ordersDF.show()
+
+created df out of RDD, need to create temptable and can query use registerTempTable
+
+ordersDF.registerTempTable("ordersDF_table");
+
+sqlContext.sql("select * from ordersDF_table").show(10,False)
+
 
 
 
