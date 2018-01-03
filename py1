@@ -723,7 +723,41 @@ productsDF.registerTempTable("productsDF_table");
 
 sqlContext.sql("select * from productsDF_table").show(10,False)
 
+http://discuss.itversity.com/c/certifications/spark-exercises
 
+
+RM url, port8088
+
+rm01.itversity.com:8088/
+
+Vcorestotoal=30 ->means 30 tasks can run simultaneously without any issues,30 tasks can take upto 120 GB
+Memorytotal=120GB
+
+memory per task and cores per taks are determined by MinumAllocation Maximum allocation
+MinumAllocation:<memory:1024, vCores:1> ->default 1vcore,1gb ram (no of vcores X memory should be < MemoryTotal ; and no vcores < Vcorestotoal/vcores; hear in this case 30/1 so no of executors <= 30; if min default vcores is 2 for ex,then 30/2=15, no of exec shud be less than 15
+if we give 30 tasks while launching pyspark it will take 30gb ram and saturate all cpu resources;
+if we give 10 atasks and 2Gb mem while lauching, it will take 20GB mem and 20 vcores
+Maximum allocation:<memory:4096, vCores:6>
+
+pyspark --master yarn \
+--conf spark.ui.port=12352 \
+--num-executors 6
+--executor-memory 2G \
+--executor-cores 2 \
+
+lets say we have to process 10gb of data,so from above we have 6 executors of 2cores for each exec, we have 12 threads(6x2vcores) with 12GB(6X2G)RAM,this will finish faster compared to
+2 threads with 2GB defualts;
+
+
+
+yarn:
+http://yarn-ck_prod_activity_summary.ngap2.Mke.com:8080/cluster
+
+Vcorestotoal=752
+Memorytotal=2.18TB
+
+MinumAllocation:<memory:32, vCores:1>
+Maximum allocation:<memory:116736, vCores:128>
 
 
 
