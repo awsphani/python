@@ -94,10 +94,6 @@ strings are iterable, int is not iterable
 tuples,strings are immutable,lists are mutable
 
 
-
-
-
-
 >>> l.append(3,4,5)                                                                                 
 Traceback (most recent call last):                                                                  
   File "<stdin>", line 1, in <module>                                                               
@@ -224,18 +220,38 @@ TypeError: reduce expected at least 2 arguments, got 1
  
 #names,age,likes are parameters 
 def about(name,age,likes):
-  print({} is {} years old and likes {}).format(name,age,likes)
+  print('{} is {} years old and likes {}').format(name,age,likes)
+
 #values passed below are positional args
 about('jack',20,'tennis')
 
 #values passed below are keyword args
 about(likes='tennis',name='jack',age=20)
 
+#params with default values goes to last
+def about1(name,age,likes='cricket'):
+  print('{} is {} years old and likes {}').format(name,age,likes)
 
+about1('jack',22)
  
- 
- 
- 
+#pack and unpack args, *args, **kwargs
+
+*args    is used to send non keyworded variable len arglist to function
+**kwargs is used to send  keyworded variable len arglist to fun 
+
+def testargs(*args):
+  for arg in args:
+    print(arg)
+
+def testkwargs(**kwargs):
+  for k,v in kwargs.iteritems():
+    print('{} is {}').format(k,v)
+
+testargs('q','e','f','u')
+
+testkwargs(name='yahoo',likes='cric',age=20)
+
+
  https://spark.apache.org/downloads.html
  https://www.apache.org/dyn/closer.lua/spark/spark-1.6.3/spark-1.6.3-bin-hadoop2.6.tgz
  terminal
