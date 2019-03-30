@@ -77,7 +77,27 @@ def sum(func,lb,ub):
 >>> s                                                                                               
 set([1, 2, 5, 6, 7])                                                                                
 >>> l1= [8,9,10]                                                                                    
->>>                                                                                                 
+>>> 
+
+
+>>> A=[1,2,3]
+>>> A=[1,2,3]+['BCD']
+>>> A
+[1, 2, 3, 'BCD']
+>>> A+list('BCD')
+[1, 2, 3, 'BCD', 'B', 'C', 'D']
+
+>>> A+list(str('567'))
+[1, 2, 3, 'BCD', '5', '6', '7']
+
+strings are iterable, int is not iterable
+tuples,strings are immutable,lists are mutable
+
+
+
+
+
+
 >>> l.append(3,4,5)                                                                                 
 Traceback (most recent call last):                                                                  
   File "<stdin>", line 1, in <module>                                                               
@@ -108,10 +128,40 @@ l[2:5][0]
 [1, 2]                                                                                              
 >>> d.values()                                                                                      
 ['folks', 'world']                                                                                  
->>> d.items()                                                                                       
+>>> d.items() ->converts dic to list                                                                                      
 [(1, 'folks'), (2, 'world')]                                                                        
 >>> type(d.items())                                                                                 
 <type 'list'>  
+
+students= {'male':['john','jack','ram','kris'],'female':['mary','alice','pavani']} 
+>>> for key in students.keys():
+...     print(students[key])
+...     for name in students[key]:
+...             print(name)
+
+
+
+>>> primes = range(2, 20) 
+>>> for i in range(2, 8): 
+...      primes = filter(lambda x: x == i or x % i, primes)
+
+
+l=[1, 2, 1, 2, 1, 2, 3, 2, 4, 2, 5, 6, 3, 7, 4, 7, 9, 7, 8]
+#list comphrension- create a list out of a list using if,for..
+pp=[(x,l.count(x)) for x in set(l)]
+[(1, 3), (2, 5), (3, 2), (4, 2), (5, 1), (6, 1), (7, 3), (8, 1), (9, 1)]
+for x in pp:
+...     print('{} occurs {} times').format(x[0],x[1])
+
+d=dict(pp) ->converts list to dict
+for key,value in d.iteritems():
+  print('{} occurs {} times').format(key,value)
+ 
+#listcomp
+even_nr=[x for x in range(1,10) if x%2==0]
+
+ty
+
 
  map filter reduce
  
@@ -170,6 +220,21 @@ TypeError: reduce expected at least 2 arguments, got 1
 >>> r1=reduce(lambda total,element: total*element,k,5)                                                                      
 >>> r1                                                                                                                      
 120                                              
+ 
+ 
+#names,age,likes are parameters 
+def about(name,age,likes):
+  print({} is {} years old and likes {}).format(name,age,likes)
+#values passed below are positional args
+about('jack',20,'tennis')
+
+#values passed below are keyword args
+about(likes='tennis',name='jack',age=20)
+
+
+ 
+ 
+ 
  
  https://spark.apache.org/downloads.html
  https://www.apache.org/dyn/closer.lua/spark/spark-1.6.3/spark-1.6.3-bin-hadoop2.6.tgz
